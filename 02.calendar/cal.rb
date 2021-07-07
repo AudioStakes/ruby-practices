@@ -5,8 +5,8 @@ require 'optparse'
 require 'date'
 
 options            = ARGV.getopts('m:y:')
-year               = options['y'].nil? ? Date.today.year : options['y'].to_i
-month              = options['m'].nil? ? Date.today.month : options['m'].to_i
+year               = options['y']&.to_i || Date.today.year
+month              = options['m']&.to_i || Date.today.month
 beginning_of_month = Date.new(year, month, 1)
 end_of_month       = Date.new(year, month, -1)
 

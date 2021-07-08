@@ -17,6 +17,6 @@ puts '日 月 火 水 木 金 土'
 beginning_of_month.wday.times { print '   ' }
 
 (beginning_of_month..end_of_month).each do |date|
-  print date.day.to_s.rjust(2) + ' ' # rubocop:disable Style/StringConcatenation
+  print date.day.to_s.rjust(2), ' '
   puts if date.saturday? || date == end_of_month
 end

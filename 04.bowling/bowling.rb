@@ -2,9 +2,7 @@
 # frozen_string_literal: true
 
 # 数値に変換
-scores = ARGV[0].split(',').map do |score|
-  score == 'X' ? 10 : score.to_i
-end
+scores = ARGV[0].gsub('X', '10').split(',').map(&:to_i)
 
 # フレームを作成
 frames = []

@@ -18,7 +18,7 @@ scores.each do |score|
       frame.clear
     end
   else
-    frames << [] if frames[9].nil?
+    frames[9] ||= []
     frames[9] << score
   end
 end

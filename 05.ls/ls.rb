@@ -76,8 +76,7 @@ def files(file_names)
 end
 
 def split_into_groups(array, number_of_groups)
-  size_of_group = array.size / number_of_groups
-  size_of_group += 1 unless (array.size % number_of_groups).zero?
+  size_of_group = (array.size / number_of_groups.to_f).ceil
 
   array.each_slice(size_of_group).to_a.each do |group|
     (size_of_group - group.size).times { group << nil }

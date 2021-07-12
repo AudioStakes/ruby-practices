@@ -78,8 +78,8 @@ end
 def split_into_groups(array, number_of_groups)
   size_of_group = (array.size / number_of_groups.to_f).ceil
 
-  array.each_slice(size_of_group).to_a.each do |group|
-    (size_of_group - group.size).times { group << nil }
+  array.each_slice(size_of_group).map do |group|
+    group.fill(nil, group.size..size_of_group - 1)
   end
 end
 

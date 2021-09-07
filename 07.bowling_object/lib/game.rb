@@ -17,27 +17,11 @@ class Game
     marks  = input.split(',')
     frames = []
 
-    9.times do
-      frame = Frame.new(marks.shift(marks[0] == 'X' ? 1 : 2))
-      frame.bonus = calc_bonus(frame, marks[..1])
+    9.times { frames << Frame.new(marks.shift(marks[0] == 'X' ? 1 : 2)) }
+    frames << Frame.new(marks) # 残りは全て10フレーム目の marks
 
-      frames << frame
-    end
-
-    frames << Frame.new(marks)  # 残りは全て10フレーム目の shots
+    [*frames, nil].each_cons(3) { |frame, next_frame, next_next_frame| frame.set_bonus(next_frame, next_next_frame) }
 
     frames
-  end
-
-  def calc_bonus(frame, next_two_marks)
-    next_two_scores = next_two_marks.map{ |mark| mark == 'X' ? 10 : mark.to_i }
-
-    if frame.strike?
-      next_two_scores.sum
-    elsif frame.spare?
-      next_two_scores[0]
-    else
-      0
-    end
   end
 end

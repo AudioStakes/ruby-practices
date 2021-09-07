@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative './frame'
-require_relative './shot'
 
 class Game
   def initialize(input)
@@ -15,26 +14,28 @@ class Game
   private
 
   def build_frames(input)
-    shots  = input.split(',').map { |mark| Shot.new(mark) }
-    frames = Array.new(10) { Frame.new }
+    marks  = input.split(',')
+    frames = []
 
-    frames.each_with_index do |frame, i|
-      if i < 9
-        frame.shots = shots.shift(shots[0].strike? ? 1 : 2)
-        frame.bonus = calc_bonus(frame, shots[..1])
-      else
-        frame.shots = shots  # 残りは全て10フレーム目の shots
-      end
+    9.times do
+      frame = Frame.new(marks.shift(marks[0] == 'X' ? 1 : 2))
+      frame.bonus = calc_bonus(frame, marks[..1])
+
+      frames << frame
     end
+
+    frames << Frame.new(marks)  # 残りは全て10フレーム目の shots
 
     frames
   end
 
-  def calc_bonus(frame, next_two_shots)
+  def calc_bonus(frame, next_two_marks)
+    next_two_scores = next_two_marks.map{ |mark| mark == 'X' ? 10 : mark.to_i }
+
     if frame.strike?
-      next_two_shots.sum(&:score)
+      next_two_scores.sum
     elsif frame.spare?
-      next_two_shots[0].score
+      next_two_scores[0]
     else
       0
     end

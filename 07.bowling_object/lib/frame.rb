@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
-class Frame
-  attr_writer :shots, :bonus
+require_relative './shot'
 
-  def initialize
-    @shots = []
+class Frame
+  attr_writer :bonus
+
+  def initialize(marks)
+    @shots = marks.map { |mark| Shot.new(mark) }
     @bonus = 0
   end
 
@@ -13,7 +15,7 @@ class Frame
   end
 
   def strike?
-    @shots[0].strike?
+    @shots[0].score == 10
   end
 
   def spare?

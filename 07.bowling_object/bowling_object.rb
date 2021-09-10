@@ -3,4 +3,4 @@
 
 require_relative './lib/game'
 
-p Game.new(ARGV[0]).score
+puts Game.new(ARGV[0]).score

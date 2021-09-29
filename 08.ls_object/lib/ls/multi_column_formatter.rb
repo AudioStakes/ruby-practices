@@ -1,11 +1,14 @@
 # frozen_string_literal: true
 
 module Ls
-  module MultiColumnFormat
+  module MultiColumnFormatter
     TAB_WIDTH = 8
 
     class << self
-      def generate_multi_column_output_from(file_names, terminal_width)
+      attr_writer :terminal_width
+
+      def format(block)
+        file_names   = block.files.map(&:name)
         max_bytesize = file_names.map(&:bytesize).max
         colmn_width  = (max_bytesize + TAB_WIDTH) & ~(TAB_WIDTH - 1)
 
@@ -19,12 +22,8 @@ module Ls
 
       private
 
-      def split_into_cloumns_with_padding(array, number_of_columns)
-        size_of_column = (array.size / number_of_columns.to_f).ceil
-
-        array.each_slice(size_of_column).map do |column|
-          column.fill(nil, column.size..size_of_column - 1)
-        end
+      def terminal_width
+        @terminal_width ||= `tput cols`.delete('^0-9').to_i
       end
 
       def tab_padding(name, width)
@@ -38,6 +37,14 @@ module Ls
         end
 
         name
+      end
+
+      def split_into_cloumns_with_padding(array, number_of_columns)
+        size_of_column = (array.size / number_of_columns.to_f).ceil
+
+        array.each_slice(size_of_column).map do |column|
+          column.fill(nil, column.size..size_of_column - 1)
+        end
       end
     end
   end

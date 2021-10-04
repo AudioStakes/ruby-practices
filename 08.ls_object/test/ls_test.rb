@@ -20,7 +20,7 @@ class LsTest < Minitest::Test # rubocop:disable Metrics/ClassLength
     TEXT
 
     assert_output(expected) do
-      Ls::Ls.new([], { 'terminal_width' => DEFAULT_TERMINAL_WIDTH, 'current_directory' => DIRECTORY_PATH }).exec
+      Ls::Ls.new([], { 'terminal_width' => DEFAULT_TERMINAL_WIDTH }).exec
     end
 
     # assert_output(`/bin/ls -C`) do
@@ -91,11 +91,13 @@ class LsTest < Minitest::Test # rubocop:disable Metrics/ClassLength
     TEXT
 
     assert_output(expected) do
-      Ls::Ls.new(%w[a b c], { 'terminal_width' => 8, 'current_directory' => DIRECTORY_PATH }).exec
+      Dir.chdir(DIRECTORY_PATH)
+
+      Ls::Ls.new(%w[a b c], { 'terminal_width' => 8 }).exec
     end
 
     # assert_output(`cd #{DIRECTORY_PATH} && COLUMNS=8 /bin/ls -C a b c`) do
-    #   Ls::Ls.new(%w[a b c], { 'terminal_width' => 8, 'current_directory' => DIRECTORY_PATH }).exec
+    #   Ls::Ls.new(%w[a b c], { 'terminal_width' => 8 }).exec
     # end
   end
 
@@ -106,11 +108,13 @@ class LsTest < Minitest::Test # rubocop:disable Metrics/ClassLength
     TEXT
 
     assert_output(expected) do
-      Ls::Ls.new(%w[a b c], { 'terminal_width' => 16, 'current_directory' => DIRECTORY_PATH }).exec
+      Dir.chdir(DIRECTORY_PATH)
+
+      Ls::Ls.new(%w[a b c], { 'terminal_width' => 16 }).exec
     end
 
     # assert_output(`cd #{DIRECTORY_PATH} && COLUMNS=16 /bin/ls -C a b c`) do
-    #   Ls::Ls.new(%w[a b c], { 'terminal_width' => 16, 'current_directory' => DIRECTORY_PATH }).exec
+    #   Ls::Ls.new(%w[a b c], { 'terminal_width' => 16 }).exec
     # end
   end
 
@@ -118,11 +122,13 @@ class LsTest < Minitest::Test # rubocop:disable Metrics/ClassLength
     expected = "a\tb\tc\n"
 
     assert_output(expected) do
-      Ls::Ls.new(%w[a b c], { 'terminal_width' => 24, 'current_directory' => DIRECTORY_PATH }).exec
+      Dir.chdir(DIRECTORY_PATH)
+
+      Ls::Ls.new(%w[a b c], { 'terminal_width' => 24 }).exec
     end
 
     # assert_output(`cd #{DIRECTORY_PATH} && COLUMNS=24 /bin/ls -C a b c`) do
-    #   Ls::Ls.new(%w[a b c], { 'terminal_width' => 24, 'current_directory' => DIRECTORY_PATH }).exec
+    #   Ls::Ls.new(%w[a b c], { 'terminal_width' => 24 }).exec
     # end
   end
 
@@ -130,11 +136,13 @@ class LsTest < Minitest::Test # rubocop:disable Metrics/ClassLength
     expected = "あいう\t\tかきく\n"
 
     assert_output(expected) do
-      Ls::Ls.new(%w[あいう かきく], { 'terminal_width' => 32, 'current_directory' => DIRECTORY_PATH }).exec
+      Dir.chdir(DIRECTORY_PATH)
+
+      Ls::Ls.new(%w[あいう かきく], { 'terminal_width' => 32 }).exec
     end
 
     # assert_output(`cd #{DIRECTORY_PATH} && COLUMNS=32 /bin/ls -C あいう かきく`) do
-    #   Ls::Ls.new(%w[あいう かきく], { 'terminal_width' => 32, 'current_directory' => DIRECTORY_PATH }).exec
+    #   Ls::Ls.new(%w[あいう かきく], { 'terminal_width' => 32 }).exec
     # end
   end
 
